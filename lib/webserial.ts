@@ -1,3 +1,11 @@
+// WebSerial API types
+interface SerialPort {
+  open(options: { baudRate: number }): Promise<void>;
+  close(): Promise<void>;
+  writable: WritableStream<string>;
+  readable: ReadableStream<string>;
+}
+
 export interface DeviceData {
   voltage: number;
   current: number;
