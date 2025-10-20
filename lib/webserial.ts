@@ -2,8 +2,8 @@
 interface SerialPort {
   open(options: { baudRate: number }): Promise<void>;
   close(): Promise<void>;
-  writable: WritableStream<string>;
-  readable: ReadableStream<string>;
+  writable: WritableStream<Uint8Array>;
+  readable: ReadableStream<Uint8Array>;
 }
 
 export interface DeviceData {
