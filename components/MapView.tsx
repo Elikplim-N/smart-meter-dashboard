@@ -26,14 +26,13 @@ export default function MapView({
     if (!isClient || !mapRef.current || mapInstanceRef.current) return;
 
     // Dynamically import Leaflet only on client
-    import('leaflet').then((L: typeof import('leaflet')) => {
-      // Initialize map
-      const map = L.map(mapRef.current).setView(
+    import('leaflet').then((L) => {
+      const map = (L as typeof import('leaflet')).map(mapRef.current!).setView(
         [currentLat || 5.55602, currentLng || -0.196278],
         16
       );
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      (L as typeof import('leaflet')).tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
@@ -42,8 +41,8 @@ export default function MapView({
       // Add current location marker
       const blueMarkerUrl =
         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxMiIgZmlsbD0iIzMzODhmZiIgb3BhY2l0eT0iMC43Ii8+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iNiIgZmlsbD0iIzMzODhmZiIvPjwvc3ZnPg==';
-      const currentMarker = L.marker([currentLat || 5.55602, currentLng || -0.196278], {
-        icon: L.icon({
+      const currentMarker = (L as typeof import('leaflet')).marker([currentLat || 5.55602, currentLng || -0.196278], {
+        icon: (L as typeof import('leaflet')).icon({
           iconUrl: blueMarkerUrl,
           iconSize: [32, 32],
           iconAnchor: [16, 16],
@@ -55,7 +54,7 @@ export default function MapView({
       alerts.forEach((alert) => {
         const color =
           alert.theft > 0.7 ? '#dc2626' : alert.theft > 0.5 ? '#f97316' : '#eab308';
-        const marker = L.circleMarker([alert.lat, alert.lng], {
+        const marker = (L as typeof import('leaflet')).circleMarker([alert.lat, alert.lng], {
           radius: 8,
           fillColor: color,
           color: color,
