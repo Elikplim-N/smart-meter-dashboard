@@ -45,8 +45,8 @@ export class WebSerialManager {
 
       const encoder = new TextEncoderStream();
       const decoder = new TextDecoderStream();
-      void encoder.readable.pipeTo(this.port.writable!);
-      void this.port.readable!.pipeTo(decoder.writable);
+      void encoder.readable.pipeTo(this.port.writable! as WritableStream<BufferSource>);
+      void (this.port.readable! as ReadableStream<BufferSource>).pipeTo(decoder.writable);
 
       this.reader = decoder.readable.getReader();
       this.writer = encoder.writable.getWriter();
