@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "build:gh": "GH_PAGES=true next build --turbopack",
+    "export:gh": "npx next export -o out",
+    "deploy:gh": "npm run build:gh && npx gh-pages -d out -b gh-pages",
     "start": "next start",
     "lint": "eslint"
   },
@@ -26,6 +29,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.6",
+    "gh-pages": "^6.1.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
