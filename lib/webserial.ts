@@ -30,14 +30,15 @@ export class WebSerialManager {
 
   async connect(): Promise<void> {
     try {
-      this.port = await (navigator as any).serial.requestPort();
+      const nav = navigator as unknown as { serial: { requestPort(): Promise<SerialPort> } };
+      this.port = await nav.serial.requestPort();
       await this.port.open({ baudRate: 115200 });
       this.isConnected = true;
 
       const encoder = new TextEncoderStream();
       const decoder = new TextDecoderStream();
-      const writableStreamClosed = encoder.readable.pipeTo(this.port.writable!);
-      const readableStreamClosed = this.port.readable!.pipeTo(decoder.writable);
+      void encoder.readable.pipeTo(this.port.writable!);
+      void this.port.readable!.pipeTo(decoder.writable);
 
       this.reader = decoder.readable.getReader();
       this.writer = encoder.writable.getWriter();
@@ -110,7 +111,7 @@ export class WebSerialManager {
       try {
         const dataStr = line.substring(5);
         const pairs = dataStr.split(",");
-        const data: any = {};
+        const data: Record<string, number> = {};
 
         for (const pair of pairs) {
           const [key, value] = pair.split("=");

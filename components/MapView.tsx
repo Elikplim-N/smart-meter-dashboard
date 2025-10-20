@@ -15,7 +15,7 @@ export default function MapView({
   currentLng,
 }: MapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
+  const mapInstanceRef = useRef<unknown>(null);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function MapView({
     if (!isClient || !mapRef.current || mapInstanceRef.current) return;
 
     // Dynamically import Leaflet only on client
-    import('leaflet').then((L) => {
+    import('leaflet').then((L: typeof import('leaflet')) => {
       // Initialize map
       const map = L.map(mapRef.current).setView(
         [currentLat || 5.55602, currentLng || -0.196278],
